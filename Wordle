@@ -1,0 +1,57 @@
+import random
+
+words = ['apple','bread','candy','dream','eagle','flame','grape','house','input','joker']
+
+def play_wordle():
+    secret_word = random.choice(words)
+    tries = 6
+    print("Welcome to Wordle!")
+    print("Guess the", len(secret_word), "-letter word. You have 6 tries.")
+    while tries > 0:
+        guess = input("Attempt "+str(7 - tries)+"/6 – Enter guess: ").lower()
+
+        if len(guess) != len(secret_word):
+            print("Wrong length. Try again", len(secret_word))
+            continue
+
+        if guess not in words:
+            print("Not in word list. Try again.")
+            continue
+
+        if guess == secret_word:
+            print("You win!!!")
+            return
+
+        one_try(guess, secret_word)
+        tries -= 1
+    print("You lose! The word was:", secret_word)
+
+def one_try(guess, secret_word):
+
+    result = []
+    for i in range(len(secret_word)):
+        ch = guess[i]
+        if ch == secret_word[i]:
+            result.append('correct')
+        elif ch in secret_word:
+            result.append('present')
+        else:
+            result.append('absent')
+
+    display = []
+    for j in range(len(secret_word)):
+        s = guess[j]
+        res = result[j]
+        if res == 'correct':
+            display.append("["+s.upper()+"]")
+        elif res == 'present':
+            display.append("("+s+")")
+        else:
+            display.append(" "+s+" ")
+
+    print("Result:", ' '.join(display))
+    return False
+
+
+
+play_wordle()
